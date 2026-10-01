@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>円高・円安を動かしてみよう</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-mode="touch">
+  <main class="wrap">
+
+    <!-- タイトル -->
+    <h1>円高・円安を動かしてみよう</h1>
+
+    <!-- 3つのモード切り替え -->
+    <nav class="tabs" role="tablist" aria-label="モード">
+      <button type="button" class="tab active" role="tab" aria-selected="true" data-mode="touch">
+        <span class="tab-num">①</span><span class="tab-name">まず触る</span>
+      </button>
+      <button type="button" class="tab" role="tab" aria-selected="false" data-mode="practice">
+        <span class="tab-num">②</span><span class="tab-name">練習する</span>
+      </button>
+      <button type="button" class="tab" role="tab" aria-selected="false" data-mode="print">
+        <span class="tab-num">③</span><span class="tab-name">プリントを作る</span>
+      </button>
+    </nav>
+
+    <!-- ========== ① まず触る ========== -->
+    <div class="panel" id="panel-touch">
+
+      <!-- 為替レート表示とスライダー -->
+      <section class="rate-box">
+        <div class="compare">
+          <div class="cmp-box cmp-base">
+            <span class="cmp-label">基準</span>
+            <span class="cmp-val">1ドル＝150円</span>
+          </div>
+          <div class="cmp-arrow" aria-hidden="true"><span class="arr-right">→</span><span class="arr-down">↓</span></div>
+          <div class="cmp-box cmp-now">
+            <span class="cmp-label">現在</span>
+            <span class="cmp-val">1ドル＝<strong id="rateValue">150</strong>円</span>
+          </div>
+        </div>
+
+        <p class="compare-label">1ドル＝150円と比べて</p>
+        <p id="judge" class="judge judge-base">基準と同じ</p>
+        <p id="judgeNote" class="judge-note">スライダーかボタンで、レートを変えてみよう</p>
+        <p class="judge-tip">※円高・円安は「前のレートと比べて」使う言葉です</p>
+
+        <input type="range" id="rateSlider" min="100" max="200" step="1" value="150"
+               aria-label="為替レート（1ドルあたりの円）">
+
+        <div class="slider-labels">
+          <span class="lbl-high">← 円高<br><small>100円</small></span>
+          <span class="lbl-base">基準<br><small>150円</small></span>
+          <span class="lbl-low">円安 →<br><small>200円</small></span>
+        </div>
+
+        <p class="preset-label">ボタンでも変えられます</p>
+        <div class="presets">
+          <button type="button" class="preset" data-rate="100">100円</button>
+          <button type="button" class="preset" data-rate="120">120円</button>
+          <button type="button" class="preset" data-rate="150">150円<small>基準</small></button>
+          <button type="button" class="preset" data-rate="180">180円</button>
+          <button type="button" class="preset" data-rate="200">200円</button>
+        </div>
+
+        <div class="step-buttons">
+          <button type="button" id="btnMinus">−1円</button>
+          <button type="button" id="btnPlus">＋1円</button>
+        </div>
+      </section>
+
+      <!-- 3つの体感カード（基準 → 現在） -->
+      <section class="cards">
+        <article class="card" id="travelCard">
+          <h2>✈️ 海外旅行</h2>
+          <p class="card-q">アメリカ旅行で <b>1,000ドル</b> 使う</p>
+          <p class="card-label">日本円で必要な金額</p>
+          <div class="ba">
+            <div class="ba-row before"><span class="ba-tag">基準<small>150円</small></span><span class="ba-val" id="travelBefore">150,000円</span></div>
+            <div class="ba-arrow" aria-hidden="true">↓</div>
+            <div class="ba-row after"><span class="ba-tag">現在<small id="travelRate">150円</small></span><span class="ba-val big" id="travelAfter">150,000円</span></div>
+          </div>
+          <p class="result" id="travelResult">基準と同じ</p>
+        </article>
+
+        <article class="card" id="importCard">
+          <h2>📦 輸入品</h2>
+          <p class="card-q">海外から <b>800ドル</b> の商品を輸入する</p>
+          <p class="card-label">日本円での価格</p>
+          <div class="ba">
+            <div class="ba-row before"><span class="ba-tag">基準<small>150円</small></span><span class="ba-val" id="importBefore">120,000円</span></div>
+            <div class="ba-arrow" aria-hidden="true">↓</div>
+            <div class="ba-row after"><span class="ba-tag">現在<small id="importRate">150円</small></span><span class="ba-val big" id="importAfter">120,000円</span></div>
+          </div>
+          <p class="result" id="importResult">基準と同じ</p>
+        </article>
+
+        <article class="card" id="exportCard">
+          <h2>🚢 日本からの輸出</h2>
+          <p class="card-q">日本で <b>300万円</b> の商品を海外へ売る</p>
+          <p class="card-label">海外から見たドル価格</p>
+          <div class="ba">
+            <div class="ba-row before"><span class="ba-tag">基準<small>150円</small></span><span class="ba-val dollar" id="exportBefore">20,000ドル</span></div>
+            <div class="ba-arrow" aria-hidden="true">↓</div>
+            <div class="ba-row after"><span class="ba-tag">現在<small id="exportRate">150円</small></span><span class="ba-val big dollar" id="exportAfter">20,000ドル</span></div>
+          </div>
+          <p class="result" id="exportResult">基準と同じ</p>
+        </article>
+      </section>
+
+      <!-- まとめ -->
+      <section class="summary">
+        <h2 id="summaryTitle">レートを動かしてみよう</h2>
+        <table class="summary-table" id="summaryTable" hidden>
+          <tr><th>海外旅行</th><td id="sumTravel"></td><td id="sumTravelText"></td></tr>
+          <tr><th>輸入</th><td id="sumImport"></td><td id="sumImportText"></td></tr>
+          <tr><th>輸出</th><td id="sumExport"></td><td id="sumExportText"></td></tr>
+        </table>
+        <p class="legend" id="summaryLegend" hidden>○＝その立場に有利になりやすい<br class="sp">　△＝不利になりやすい</p>
+        <p class="point">円高・円安は、<br class="sp">立場によって<br class="sp">メリットとデメリットが違う</p>
+      </section>
+    </div>
+
+    <!-- ========== ② 練習する ========== -->
+    <div class="panel" id="panel-practice" hidden>
+
+      <section class="box">
+        <h2>練習する</h2>
+        <p class="lead">レベルと種類を選んで「練習を始める」を押そう。</p>
+
+        <p class="field-label">レベル</p>
+        <div class="seg">
+          <label class="seg-item">
+            <input type="radio" name="practiceLevel" value="basic" checked>
+            <span class="seg-box"><span class="seg-main">基本</span><span class="seg-sub">計算なし・まずはここから</span></span>
+          </label>
+          <label class="seg-item">
+            <input type="radio" name="practiceLevel" value="standard">
+            <span class="seg-box"><span class="seg-main">標準</span><span class="seg-sub">計算や生活の例もある</span></span>
+          </label>
+        </div>
+
+        <label class="field-label" for="practiceType">問題の種類</label>
+        <select id="practiceType">
+          <option value="all">すべて（まぜて出す）</option>
+          <option value="judge">円高・円安の判定</option>
+          <option value="calc">旅行・輸入・輸出の金額</option>
+          <option value="effect">影響を考える（有利？不利？）</option>
+          <option value="life">生活の例で考える</option>
+        </select>
+
+        <button type="button" id="btnPractice" class="primary wide">練習を始める</button>
+
+        <div class="practice-box" id="practiceBox" hidden>
+          <p class="ss-count" id="practiceCount"></p>
+          <p class="q-text" id="practiceText"></p>
+          <p class="hint" id="practiceHint"></p>
+          <div class="choices" id="practiceChoices"></div>
+          <p class="feedback" id="practiceFeedback"></p>
+          <button type="button" id="btnNext" class="primary wide" hidden>次の問題 →</button>
+        </div>
+      </section>
+
+      <!-- ミニ確認問題 -->
+      <section class="box quiz">
+        <h2>ミニ確認問題（3問）</h2>
+
+        <div class="q" data-answer="円高">
+          <p class="q-text"><span class="q-num">問1</span>1ドル150円から120円になった。円高？ 円安？</p>
+          <div class="choices">
+            <button type="button">円高</button>
+            <button type="button">円安</button>
+          </div>
+          <p class="feedback" data-explain="1ドルを買うのに必要な円が少なくなった → 円の力が強くなった。だから円高。"></p>
+        </div>
+
+        <div class="q" data-answer="高くなる">
+          <p class="q-text"><span class="q-num">問2</span>円安になったとき、海外旅行の費用は一般的にどうなりやすい？</p>
+          <div class="choices">
+            <button type="button">安くなる</button>
+            <button type="button">高くなる</button>
+          </div>
+          <p class="feedback" data-explain="円安だと、同じ1ドルを買うのにたくさんの円が必要。だから旅行は高くなりやすい。"></p>
+        </div>
+
+        <div class="q" data-answer="立場によって違う">
+          <p class="q-text"><span class="q-num">問3</span>円高と円安は、どちらが絶対に良い？</p>
+          <div class="choices">
+            <button type="button">円高</button>
+            <button type="button">円安</button>
+            <button type="button">立場によって違う</button>
+          </div>
+          <p class="feedback" data-explain="旅行する人や輸入する会社には円高、輸出する会社には円安が、価格面で有利になりやすい。"></p>
+        </div>
+      </section>
+    </div>
+
+    <!-- ========== ③ プリントを作る ========== -->
+    <div class="panel" id="panel-print" hidden>
+
+      <section class="box no-print">
+        <h2>プリントを作る</h2>
+        <p class="lead">選んで「プリントを作る」を押すと、解答・解説つきのプリントができます。</p>
+
+        <label class="field-label" for="printType">出題範囲</label>
+        <select id="printType">
+          <option value="all">すべて（まぜて出す）</option>
+          <option value="judge">円高・円安の判定</option>
+          <option value="calc">旅行・輸入・輸出の金額</option>
+          <option value="effect">影響を考える（有利？不利？）</option>
+          <option value="life">生活の例で考える</option>
+        </select>
+
+        <p class="field-label">レベル</p>
+        <div class="seg">
+          <label class="seg-item">
+            <input type="radio" name="printLevel" value="basic" checked>
+            <span class="seg-box"><span class="seg-main">基本</span><span class="seg-sub">計算なし</span></span>
+          </label>
+          <label class="seg-item">
+            <input type="radio" name="printLevel" value="standard">
+            <span class="seg-box"><span class="seg-main">標準</span><span class="seg-sub">計算あり</span></span>
+          </label>
+        </div>
+
+        <p class="field-label">問題数</p>
+        <div class="seg">
+          <label class="seg-item">
+            <input type="radio" name="printCount" value="5" checked>
+            <span class="seg-box"><span class="seg-main">5問</span><span class="seg-sub">授業の残り時間・確認用</span></span>
+          </label>
+          <label class="seg-item">
+            <input type="radio" name="printCount" value="10">
+            <span class="seg-box"><span class="seg-main">10問</span><span class="seg-sub">じっくり自習・復習</span></span>
+          </label>
+        </div>
+
+        <button type="button" id="btnPrint" class="primary wide">プリントを作る</button>
+      </section>
+
+      <section class="print-area" id="printArea" hidden>
+        <div class="print-buttons no-print">
+          <button type="button" id="btnDoPrint" class="primary">印刷する／PDFで保存</button>
+          <button type="button" id="btnRemake">別の問題で作り直す</button>
+        </div>
+        <div class="sheet" id="printSheet"></div>
+      </section>
+    </div>
+
+    <p class="note">実際の価格は為替以外の要因にも影響されます。この教材では為替だけを変化させています。</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
